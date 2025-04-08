@@ -75,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDiscountPercent(discountedPercent);
 
 
-        return null;
+        return productRepository.save(product);
     }
 
     private int calculateDiscountPercentage(double mrpPrice, double sellingPrice) {
@@ -107,12 +107,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> searchProduct() {
-        return List.of();
+    public List<Product> searchProduct(String query) {
+        return productRepository.searchProduct(query);
     }
 
     @Override
-    public Page<Product> getAllProducts(String category, String brand, String colors, String sizes, String minPrice, String maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber) {
+    public Page<Product> getAllProducts(String category, String brand, String colors, String sizes, Integer minPrice, Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber) {
 //        Specification<T> is an interface provided by Spring Data JPA that allows the creation of dynamic queries using the Criteria API
 //        root → Represents the root entity (Product in this case). It helps in accessing the attributes of the entity.
 //

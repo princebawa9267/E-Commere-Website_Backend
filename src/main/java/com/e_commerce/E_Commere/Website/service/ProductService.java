@@ -5,7 +5,6 @@ import com.e_commerce.E_Commere.Website.Model.Product;
 import com.e_commerce.E_Commere.Website.Model.Seller;
 import com.e_commerce.E_Commere.Website.request.CreateProductRequest;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -14,14 +13,14 @@ public interface ProductService {
     public void deleteProduct(Long productId) throws ProductException;
     public Product updateProduct(Long productId, Product product) throws ProductException;
     Product findProductById(Long productId) throws ProductException;
-    List<Product> searchProduct();
+    List<Product> searchProduct(String query);
     public Page<Product> getAllProducts(
             String category,
             String brand,
             String colors,
             String sizes,
-            String minPrice,
-            String maxPrice,
+            Integer minPrice,
+            Integer maxPrice,
             Integer minDiscount,
             String sort,
             String stock,

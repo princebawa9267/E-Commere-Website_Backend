@@ -1,5 +1,6 @@
 package com.e_commerce.E_Commere.Website.Model;
 
+import com.e_commerce.E_Commere.Website.Domain.OrderStatus;
 import com.e_commerce.E_Commere.Website.Domain.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;

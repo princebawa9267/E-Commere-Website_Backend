@@ -1,8 +1,12 @@
 package com.e_commerce.E_Commere.Website.Model;
 
 import com.e_commerce.E_Commere.Website.Domain.PaymentMethod;
+import com.e_commerce.E_Commere.Website.Domain.PaymentOrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -27,7 +31,8 @@ public class PaymentOrder {
     private User user;
 
 
-
+    @OneToMany
+    private Set<Order> orders = new HashSet<>();
 
 
 }

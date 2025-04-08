@@ -3,14 +3,17 @@ package com.e_commerce.E_Commere.Website.Controller;
 import com.e_commerce.E_Commere.Website.Domain.AccountStatus;
 import com.e_commerce.E_Commere.Website.Exceptions.SellerException;
 import com.e_commerce.E_Commere.Website.Model.Seller;
+import com.e_commerce.E_Commere.Website.Model.SellerReport;
 import com.e_commerce.E_Commere.Website.Model.VerificationCode;
 import com.e_commerce.E_Commere.Website.Response.ApiResponse;
 import com.e_commerce.E_Commere.Website.Response.AuthResponse;
+import com.e_commerce.E_Commere.Website.repository.SellerReportRepository;
 import com.e_commerce.E_Commere.Website.request.LoginOtpRequest;
 import com.e_commerce.E_Commere.Website.request.LoginRequest;
 import com.e_commerce.E_Commere.Website.repository.VerificationCodeRepository;
 import com.e_commerce.E_Commere.Website.service.AuthService;
 import com.e_commerce.E_Commere.Website.service.EmailService;
+import com.e_commerce.E_Commere.Website.service.SellerReportService;
 import com.e_commerce.E_Commere.Website.service.SellerService;
 import com.e_commerce.E_Commere.Website.util.OtpUtil;
 import jakarta.mail.MessagingException;
@@ -26,9 +29,10 @@ import java.util.List;
 @RequestMapping("/sellers")
 public class SellerController {
     private final SellerService sellerService;
-    private final VerificationCodeRepository verificationCodeRepository;
     private final AuthService authService;
     private final EmailService emailService;
+    private final SellerReportService sellerReportService;
+    private final VerificationCodeRepository verificationCodeRepository;
 
     @PostMapping("/sent/login-otp")
     public ResponseEntity<ApiResponse> sendOtpHandler(@RequestBody LoginOtpRequest req) throws Exception {
@@ -105,10 +109,12 @@ return ResponseEntity.ok(authResponse);
         return new ResponseEntity<>(seller, HttpStatus.OK);
     }
 
-//    @GetMapping("/report")
-//    public ResponseEntity<SellerReport> getSellerReport(@RequestHeader("Authorization") String jwt) throws SellerException{
-//        return null;
-//    }
+    @GetMapping("/report")
+    public ResponseEntity<SellerReport> getSellerReport(@RequestHeader("Authorization") String jwt) throws SellerException{
+        Seller seller = sellerService.getSellerProfile(jwt);
+        SellerReport report = sellerReportService.getSellerReport(seller);
+        return new ResponseEntity<>(report,HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity<List<Seller>> getAllSellers(@RequestParam(required = false) AccountStatus status){
