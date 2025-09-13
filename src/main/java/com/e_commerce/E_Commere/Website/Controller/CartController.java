@@ -38,8 +38,8 @@ public class CartController {
                                                   @RequestHeader("Authorization") String jwt) throws ProductException {
 
         User user = userService.findUserByJWTToken(jwt);
+        System.out.println(req);
         Product product = productService.findProductById(req.getProductId());
-
         CartItem item = cartService.addCardItem(
                 user,
                 product,

@@ -38,8 +38,6 @@ public class SellerServiceImpl implements SellerService {
         }
         Address address = addressRepository.save(seller.getPickupAddress());
 
-//        System.out.println(address);
-
         Seller newSeller = new Seller();
         newSeller.setEmail(seller.getEmail());
         newSeller.setPassword(seller.getPassword());

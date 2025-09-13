@@ -20,7 +20,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction createTransaction(Order order) {
-        Seller seller = sellerRepository.findById(order.getSellerid()).get();
+        Seller seller = sellerRepository.findById(order.getSellerId()).get();
 
         Transaction transaction = new Transaction();
         transaction.setSeller(seller);;

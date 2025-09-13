@@ -43,11 +43,12 @@ public class OrderServiceImpl implements OrderService {
             int totalOrderPrice = items.stream().mapToInt(
                     CartItem::getSellingPrice
             ).sum();
+
             int totalItem = items.stream().mapToInt(CartItem::getQuantity).sum();
 
             Order createdOrder = new Order();
             createdOrder.setUser(user);
-            createdOrder.setSellerid(sellerId);
+            createdOrder.setSellerId(sellerId);
             createdOrder.setTotalMrpPrice(totalOrderPrice);
             createdOrder.setTotalSellingPrice(totalOrderPrice);
             createdOrder.setTotalItem(totalItem);
@@ -55,11 +56,12 @@ public class OrderServiceImpl implements OrderService {
             createdOrder.setOrderStatus(OrderStatus.PENDING);
             createdOrder.getPaymentDetails().setStatus(PaymentStatus.PENDING);
 
+            System.out.println("Created Order " + createdOrder);
             Order savedOrder = orderRepository.save(createdOrder);
+
             orders.add(savedOrder);
 
             List<OrderItem> orderItems = new ArrayList<>();
-
             for(CartItem item : items){
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrder(savedOrder);
@@ -77,7 +79,6 @@ public class OrderServiceImpl implements OrderService {
             }
 
         }
-
 
         return orders;
     }

@@ -43,7 +43,14 @@ public class OrderController{
         PaymentLinkResponse res = new PaymentLinkResponse();
 
         if (paymentMethod.equals(PaymentMethod.RAZORPAY)){
-            PaymentLink payment = paymentService.createRazorPayPaymentLink(user,paymentOrder.getAmount(),paymentOrder.getId());
+            int shippingFee ;
+            if (paymentOrder.getAmount() > 1500) {
+                shippingFee = 0;
+            } else {
+                shippingFee = 99;
+            }
+
+            PaymentLink payment = paymentService.createRazorPayPaymentLink(user,paymentOrder.getAmount() + shippingFee ,paymentOrder.getId());
             String paymentUrl = payment.get("short_url");
             String paymentUrlId = payment.get("id");
 
@@ -88,7 +95,7 @@ public class OrderController{
         User user = userService.findUserByJWTToken(jwt);
         Order order = orderService.cancelOrder(orderId,user);
 
-        Seller seller = sellerService.getSellerById(order.getSellerid());
+        Seller seller = sellerService.getSellerById(order.getSellerId());
         SellerReport report = sellerReportService.getSellerReport(seller);
 
         report.setCanceledOrders(report.getCanceledOrders()+1);

@@ -10,7 +10,8 @@ public class HomeController {
     @GetMapping
     public ApiResponse HomeControlHandler(){
         ApiResponse response = new ApiResponse();
-        response.setMessage("Response");
+        response.setMessage("Hello welcome to Prime Goods");
         return response;
     }
+
 }

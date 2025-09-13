@@ -65,25 +65,27 @@ public class AuthServiceImpl implements AuthService {
                     throw new Exception("User not exist with provided email");
                 }
             }
-
-            VerificationCode isExist = verificationCodeRepository.findByEmail(email);
-            if(isExist != null){
-                verificationCodeRepository.delete(isExist);
-            }
-
-            String otp = OtpUtil.generateOtp();
-
-            VerificationCode verificationCode = new VerificationCode();
-            verificationCode.setOtp(otp);
-            verificationCode.setEmail(email);
-            verificationCodeRepository.save(verificationCode);
-
-            String subject = "Prime Goods Otp";
-            String text = "Hi user, \nYour Otp is : " + otp ;
-
-            emailService.sendVerificationOtpEmail(email,otp,subject,text);
-
         }
+
+
+        VerificationCode isExist = verificationCodeRepository.findByEmail(email);
+        if(isExist != null){
+            verificationCodeRepository.delete(isExist);
+        }
+
+        String otp = OtpUtil.generateOtp();
+
+        VerificationCode verificationCode = new VerificationCode();
+        verificationCode.setOtp(otp);
+        verificationCode.setEmail(email);
+        verificationCodeRepository.save(verificationCode);
+
+        String subject = "Prime Goods Otp";
+        String text = "Hi user, \nYour Otp is : " + otp ;
+
+        emailService.sendVerificationOtpEmail(email,otp,subject,text);
+
+
     }
 
     @Override
@@ -104,7 +106,8 @@ public class AuthServiceImpl implements AuthService {
         if(user == null){
             User createUser = new User();
             createUser.setEmail(req.getEmail());
-            createUser.setFullName(req.getFullName());
+            createUser.setFullName(req.getFull_name());
+            System.out.println(req.getFull_name());
             createUser.setMobile("9988776655");
 //            createUser.setAddresses(req.getAddress());
             createUser.setPassword(passwordEncoder.encode(req.getOtp()));

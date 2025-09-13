@@ -70,6 +70,8 @@ public class ProductServiceImpl implements ProductService {
         product.setCreatedAt(LocalDateTime.now());
         product.setTitle(req.getTitle());
         product.setColor(req.getColor());
+        product.setImages(req.getImages());
+        product.setSizes(req.getSizes());
         product.setSellingPrice(req.getSellingPrice());
         product.setMrpPrice(req.getMrpPrice());
         product.setDiscountPercent(discountedPercent);
@@ -152,13 +154,14 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable;
         if(sort !=null && !sort.isEmpty()){
             switch (sort){
-                case "price_low" -> pageable = PageRequest.of(pageNumber != null ? pageNumber:0,10,Sort.by("sellingPrice").ascending());
-                case "price_high" -> pageable = PageRequest.of(pageNumber !=null ? pageNumber:0,10,Sort.by("sellingPrice").descending());
-                default -> pageable = PageRequest.of(pageNumber!=null ? pageNumber:0,10,Sort.unsorted());
+                case "price_low" -> pageable = PageRequest.of(pageNumber != null ? pageNumber:0,8,Sort.by("sellingPrice").ascending());
+                case "price_high" -> pageable = PageRequest.of(pageNumber !=null ? pageNumber:0,8,Sort.by("sellingPrice").descending());
+                default -> pageable = PageRequest.of(pageNumber!=null ? pageNumber:0,8,Sort.unsorted());
             }
         }
         else {
-            pageable = PageRequest.of(pageNumber != null ? pageNumber:0,10,Sort.unsorted());
+            System.out.println(pageNumber);
+            pageable = PageRequest.of(pageNumber != null ? pageNumber:0,8,Sort.unsorted());
         }
         return productRepository.findAll(spec,pageable);
     }

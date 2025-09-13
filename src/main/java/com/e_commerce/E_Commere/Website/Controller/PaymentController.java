@@ -32,6 +32,7 @@ public class PaymentController {
         PaymentLinkResponse paymentLinkResponse;
 
         PaymentOrder paymentOrder = paymentService.getPaymentOrderByPaymentId(paymentLinkId);
+//        System.out.println(paymentOrder);
 
         boolean paymentSuccess = paymentService.ProceedPaymentOrder(
                 paymentOrder,
@@ -41,7 +42,7 @@ public class PaymentController {
         if (paymentSuccess){
             for (Order order: paymentOrder.getOrders()){
                 transactionService.createTransaction(order);
-                Seller seller = sellerService.getSellerById(order.getSellerid());
+                Seller seller = sellerService.getSellerById(order.getSellerId());
                 SellerReport report = sellerReportService.getSellerReport(seller);
                 report.setTotalOrders(report.getTotalOrders()+1);
                 report.setTotalEarning(report.getTotalEarning() + order.getTotalSellingPrice());

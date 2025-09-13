@@ -26,7 +26,8 @@ public class Order {
     @ManyToOne
     private User user;
 
-    private long sellerid;
+//    @Column(name = "seller_id", nullable = false)
+    private Long sellerId;
 
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();

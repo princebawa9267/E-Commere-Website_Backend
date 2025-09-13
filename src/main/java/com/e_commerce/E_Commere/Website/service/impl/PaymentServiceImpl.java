@@ -18,6 +18,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.model.tax.Registration;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +28,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private PaymentOrderRepository paymentOrderRepository;
-    private OrderRepository orderRepository;
-    private String apikey = "apikey";
-    private String apiSecret = "apisecret";
+    private final PaymentOrderRepository paymentOrderRepository;
+    private final OrderRepository orderRepository;
+
+
+    @Value("${razorpay.key_id}")
+    private String apikey;
+    @Value("${razorpay.key_secret}")
+    private String apiSecret ;
     private String stripeSecretKey = "stripeSecretKey";
 
     @Override
@@ -100,10 +105,10 @@ public class PaymentServiceImpl implements PaymentService {
             paymentLinkRequest.put("customer",customer);
 
             JSONObject notify = new JSONObject();
-            notify.put("email",user.getEmail());
+            notify.put("email",true);
             paymentLinkRequest.put("notify",notify);
 
-            paymentLinkRequest.put("callback_url","http://localhost:3000/payment-success/"+orderId);
+            paymentLinkRequest.put("callback_url","http://localhost:5173/payment-success/"+orderId);
             paymentLinkRequest.put("callback_method","get");
 
             PaymentLink paymentLink = razorpayClient.paymentLink.create(paymentLinkRequest);
