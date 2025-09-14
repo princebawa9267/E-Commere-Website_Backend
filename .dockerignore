@@ -1,6 +1,9 @@
 target/
 .git
 .gitignore
-README.md
+HELP.md
 *.iml
+*.ipr
+*.iws
 .idea/
+.vscode/
